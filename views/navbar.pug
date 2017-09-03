@@ -3,17 +3,19 @@
     // Sidebar
     nav#sidebar-wrapper.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
         ul.nav.sidebar-nav
-            li.sidebar-brand
-                a(href='#')
+            li.sidebar-brand(style='text-decoration:none;cursor:pointer')
+                a.brand-name(href='/')
                     | BradBot
             li
-                a(href='#') Home
+                a(href='/') Home
             li
-                a(href='#') Salty Theories
+                a(href='/SaltyTheories') Salty Theories
             li
                 a(href='#') Commands
             li
                 a(href='#') Pray4Pace
+            li
+                a(href='#') Me
             //li.dropdown
             //    a.dropdown-toggle(href='#', data-toggle='dropdown')
             //        | Works

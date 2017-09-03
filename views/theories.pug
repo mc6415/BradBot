@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1= title
+    h3
+        small Here you'll find a list of salty theories the bot will show
+    table.table.table-striped
+        thead
+            th Salty Theories
+        tbody
+            for theory in theories
+                tr
+                    td= theory
