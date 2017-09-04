@@ -4,15 +4,10 @@ const siteConfig = require('../botconfig.js');
 const Connection = require('tedious').Connection;
 const Request = require('tedious').Request;
 const TYPES = require('tedious').TYPES;
-
-/**
- *  Connect to the SQL database.
- */
-const connection = new Connection(siteConfig.sqlConfig);
+const Theories = require('../saltytheory');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log("Doing a thing");
   res.render('index', { title: 'Express' });
 });
 
@@ -20,27 +15,43 @@ router.get('/SaltyTheories', function(req,res){
 
   const saltyTheories = [];
 
-  request = new Request("SELECT SaltyTheory FROM SaltyTheories", (err) => {
-      if(err){
-        console.log("Problem connecting to database");
-      }
+  let connection = new Connection(siteConfig.sqlConfig);
+
+  connection.on('connect', (err) => {
+      request = new Request("SELECT SaltyTheory FROM SaltyTheories", (err) => {
+          if(err){
+              console.log(err);
+          }
+
+          connection.close();
+      });
+
+      request.on('row', (columns) =>{
+          for(const col of columns){
+              saltyTheories.push(col.value);
+          }
+      });
+
+      request.on('doneProc', (rowCount, more)=>{
+          res.render('theories', {
+              title: 'Salty Theories',
+              theories: saltyTheories
+          });
+      });
+
+      connection.execSql(request);
+  })
+});
+
+router.post('/AddTheory', function(req,res){
+  let connection = new Connection(siteConfig.sqlConfig);
+
+  connection.on('connect', (err) => {
+      const newTheory = req.body.theory;
+      Theories.addTheory(newTheory, connection);
   });
 
-  request.on('row', (columns) =>{
-    for(const col of columns){
-      saltyTheories.push(col.value);
-    }
-  });
-
-  request.on('doneProc', (rowCount, more)=>{
-    console.log(saltyTheories);
-    res.render('theories', {
-      title: 'Salty Theories',
-      theories: saltyTheories
-    });
-  });
-
-  connection.execSql(request);
+  res.redirect('/SaltyTheories');
 });
 
 module.exports = router;
