@@ -31,7 +31,7 @@ exports.theory = function(message, connection){
     connection.execSql(request);
 };
 
-exports.addTheory = function(theory, connection){
+exports.addTheory = function(theory, connection, res){
 
     request = new Request("INSERT INTO SaltyTheories (SaltyTheory) VALUES (@Theory)", (err) => {
         if(err){console.log(err);}
@@ -47,6 +47,10 @@ exports.addTheory = function(theory, connection){
                console.log(`Product id of inserted item is ${col.value}`);
            }
        }
+    });
+
+    request.on('doneProc', () =>{
+        res.redirect('/theories/list');
     });
 
     connection.execSql(request);
