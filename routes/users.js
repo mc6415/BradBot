@@ -54,4 +54,51 @@ router.post('/add', function(req,res){
 
 });
 
+router.post('/signin', (req,res) => {
+    let username = req.body.username;
+    let connection = new Connection(siteConfig.sqlConfig);
+
+    connection.on('connect', (err) => {
+        request = new Request(`SELECT * FROM [User] WHERE UserName = @username`, (err) => {
+            if(err){console.log(err);}
+            connection.close();
+        });
+
+        request.addParameter('username', TYPES.NVarChar, username);
+
+        request.on('doneInProc', (rowCount, more, rows) => {
+            if(rowCount){
+                let userData = rows[0];
+                let userEntry = {};
+                for(const col of userData){
+                    userEntry[col.metadata.colName] = col.value;
+                }
+
+                let dbPassword = userEntry.Password;
+                let enteredPassword = `${sha256.x2(userEntry.Salt)}${sha256.x2(req.body.password)}${sha256.x2(userEntry.Pepper)}`;
+
+                if(dbPassword === enteredPassword){
+                    console.log(userEntry);
+                    req.session.user = {UserName: userEntry.UserName, IsAdmin: userEntry.IsAdmin};
+                    console.log(req.session);
+                    res.redirect("/");
+                } else {
+                    res.render('login', {message: "Password didn't match the one stored, are you sure it was correct?"})
+                }
+            } else {
+                res.render('login', {message: "Problem Logging in, are you sure you have an account?"})
+            }
+        });
+
+        connection.execSql(request);
+    });
+});
+
+router.get('/logout', (req,res) => {
+    console.log("Hello World");
+    req.session.destroy((err) => {
+        res.redirect("/");
+    });
+});
+
 module.exports = router;

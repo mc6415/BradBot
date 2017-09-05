@@ -5,11 +5,13 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const sassMiddleware = require('node-sass-middleware');
-
+const session = require('express-session');
+const MSSQLStore = require('connect-mssql')(session);
 const index = require('./routes/index');
 const users = require('./routes/users');
 const theories = require('./routes/saltytheories');
-
+const configFile = require('./botconfig');
+const isLoggedIn = true;
 const app = express();
 
 // view engine setup
@@ -29,6 +31,11 @@ app.use(sassMiddleware({
   sourceMap: true
 }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+    store: new MSSQLStore(configFile.sessionConfig),
+    secret: "secret",
+    rolling: true
+}));
 
 app.use('/', index);
 app.use('/theories', theories);

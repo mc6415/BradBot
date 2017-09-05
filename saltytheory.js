@@ -31,14 +31,15 @@ exports.theory = function(message, connection){
     connection.execSql(request);
 };
 
-exports.addTheory = function(theory, connection, res){
+exports.addTheory = function(theory, connection, res, req){
 
-    request = new Request("INSERT INTO SaltyTheories (SaltyTheory) VALUES (@Theory)", (err) => {
+    request = new Request("INSERT INTO SaltyTheories (SaltyTheory, AddedBy) VALUES (@Theory, @AddedBy)", (err) => {
         if(err){console.log(err);}
         connection.close();
     });
 
     request.addParameter('Theory', TYPES.NVarChar, theory);
+    request.addParameter('AddedBy', TYPES.NVarChar, req.session.user.UserName);
 
     request.on('row', (columns) => {
        for(const col of columns){

@@ -11,18 +11,19 @@ block content
             for theory in theories
                 tr
                     td= theory
-    form.form-horizontal(method="POST", action="/theories/add")
-        fieldset
-            // Form Name
-            legend
-            // Textarea
-            .form-group
-                label.col-md-4.control-label(for='textarea') Salty Theory
-                .col-md-4
-                    textarea#textarea.form-control(name='theory') Put theory here
-            // Button
-            .form-group
-                label.col-md-4.control-label(for='singlebutton')
-                .col-md-4
-                    button#singlebutton.btn.btn-primary(name='singlebutton') Add Salty Theory
+    if isLoggedIn
+        form.form-horizontal(method="POST", action="/theories/add")
+            fieldset
+                // Form Name
+                legend
+                // Textarea
+                .form-group
+                    label.col-md-4.control-label(for='textarea') Salty Theory
+                    .col-md-4
+                        textarea#textarea.form-control(name='theory') Put theory here
+                // Button
+                .form-group
+                    label.col-md-4.control-label(for='singlebutton')
+                    .col-md-4
+                        button#singlebutton.btn.hvr-radial-in(name='singlebutton') Add Salty Theory
 

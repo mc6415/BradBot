@@ -5,6 +5,7 @@ const Connection = require('tedious').Connection;
 const Request = require('tedious').Request;
 const TYPES = require('tedious').TYPES;
 const Theories = require('../saltytheory');
+const siteServices = require('../siteservice');
 
 router.get('/list', function(req,res){
 
@@ -30,7 +31,8 @@ router.get('/list', function(req,res){
         request.on('doneProc', (rowCount, more)=>{
             res.render('theories', {
                 title: 'Salty Theories',
-                theories: saltyTheories
+                theories: saltyTheories,
+                isLoggedIn: siteServices.isLoggedIn(req)
             });
         });
 
@@ -43,8 +45,21 @@ router.post('/add', function(req,res){
 
     connection.on('connect', (err) => {
         const newTheory = req.body.theory;
-        Theories.addTheory(newTheory, connection, res);
+        Theories.addTheory(newTheory, connection, res, req);
     });
+});
+
+router.get('/war', (req,res)=>{
+    res.render("potnoodle");
+});
+
+router.get('/getWarNumbers', (req,res) => {
+    let connection = new Connection(siteConfig.sqlConfig);
+
+    connection.on('connect', (err) => {
+        res.send("Working");
+    });
+
 });
 
 module.exports = router;

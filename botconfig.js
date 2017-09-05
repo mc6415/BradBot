@@ -13,6 +13,17 @@ exports.sqlConfig = {
     server: "bradbot.database.windows.net",
     options: {
         encrypt: true,
-        database: "BradBot"
+        database: "BradBot",
+        rowCollectionOnDone: true
+    }
+};
+
+exports.sessionConfig = {
+    user: "mcoombes",
+    password: "Mc220391",
+    server: "bradbot.database.windows.net",
+    database: "BradBot",
+    options:{
+        encrypt: true
     }
 };

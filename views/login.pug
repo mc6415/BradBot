@@ -36,8 +36,12 @@ block content
     link(href='//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css', rel='stylesheet')
     .container
         .row
+            if message
+                .alert.alert-danger
+                    strong Error:
+                    | #{message}
             .col-md-offset-5.col-md-3
-                .form-login
+                form.form-login(method='POST', action='/users/signin')
                     h4 Welcome back.
                     input#userName.form-control.input-sm.chat-input(type='text', placeholder='username', name='username')
                     br
@@ -45,8 +49,8 @@ block content
                     br
                     .wrapper
                         span.group-btn
-                            a.btn.btn-primary.btn-md(href='#')
+                            button.btn.btn-primary.btn-md(type='submit')
                                 | login
                                 i.fa.fa-sign-in
-                    hr
+                    br
                     a(href='/users/signup', style='text-align:center') Don't Have an account? Signup!

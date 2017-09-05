@@ -6,8 +6,12 @@
             li.sidebar-brand(style='text-decoration:none;cursor:pointer')
                 a.brand-name(href='/')
                     | BradBot
-            li
-                a(href='/users/login') Login
+            if isLoggedIn
+                li
+                    a(href='/users/logout') Logout
+            else
+                li
+                    a(href='/users/login') Login
             li
                 a(href='/theories/list') Salty Theories
             li
@@ -15,7 +19,7 @@
             li
                 a(href='#') Pray4Pace
             li
-                a(href='#') Pot Noodle Sandwich War
+                a(href='/theories/war') Pot Noodle Sandwich War
             li
                 a(href='#') Me
             //li.dropdown
