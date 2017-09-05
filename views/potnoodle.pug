@@ -2,5 +2,24 @@ extends layout
 
 block content
     h1 Pot Noodle Sandwich War
+    if !hasVoted
+        #voteOptions(style='padding-bottom:55px')
+            h3 Vote Here!
+            button.btn.btn-success.col-xs-2(onclick='vote("yes")') Yay
+            button.btn.btn-danger.col-xs-2.col-xs-offset-1(onclick='vote("no")') Nay
     canvas#myChart(width='400', height='400')
     script(src='/javascripts/chart.js')
+    script.
+        function vote(vote){
+            $.ajax({
+                url: "/theories/vote",
+                method: "POST",
+                data: {vote: vote},
+                success: [function(res){
+                    location.reload();
+                }],
+                error: function(err){
+                    console.log(err);
+                }
+            })
+        }

@@ -3,14 +3,15 @@ $.ajax({
     url: "/theories/getWarNumbers",
     method: "GET",
     success: [function(res){
+        console.log(res);
         let ctx = document.getElementById("myChart").getContext('2d');
         let myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                labels: ["Yay", "Nay"],
                 datasets: [{
                     label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
+                    data: [res.yay, res.nay],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -34,6 +35,7 @@ $.ajax({
                 scales: {
                     yAxes: [{
                         ticks: {
+                            stepSize: 1,
                             beginAtZero:true
                         }
                     }]
