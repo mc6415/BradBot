@@ -57,6 +57,7 @@ router.get('/getWarNumbers', (req,res) => {
     let connection = new Connection(siteConfig.sqlConfig);
 
     connection.on('connect', (err) => {
+        connection.close();
         res.send("Working");
     });
 

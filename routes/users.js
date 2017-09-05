@@ -79,7 +79,7 @@ router.post('/signin', (req,res) => {
 
                 if(dbPassword === enteredPassword){
                     console.log(userEntry);
-                    req.session.user = {UserName: userEntry.UserName, IsAdmin: userEntry.IsAdmin};
+                    req.session.user = {UserName: userEntry.UserName, IsAdmin: userEntry.IsAdmin, HasVoted: userEntry.HasVoted};
                     console.log(req.session);
                     res.redirect("/");
                 } else {
