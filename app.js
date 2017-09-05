@@ -24,6 +24,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+const store = new MSSQLStore(configFile.sessionConfig);
 app.use(sassMiddleware({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
@@ -32,13 +33,13 @@ app.use(sassMiddleware({
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use(session({
-//     store: new MSSQLStore(configFile.sessionConfig),
-//     secret: "secret",
-//     rolling: true,
-//     resave: true,
-//     saveUninitialized: true
-// }));
+app.use(session({
+    store: store,
+    secret: "secret",
+    rolling: true,
+    resave: true,
+    saveUninitialized: true
+}));
 
 app.use('/', index);
 app.use('/theories', theories);
