@@ -32,14 +32,13 @@ app.use(sassMiddleware({
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({
-    store: new MSSQLStore(configFile.sessionConfig),
-    secret: "secret",
-    rolling: true,
-    resave: true,
-    saveUninitialized: true
-
-}));
+// app.use(session({
+//     store: new MSSQLStore(configFile.sessionConfig),
+//     secret: "secret",
+//     rolling: true,
+//     resave: true,
+//     saveUninitialized: true
+// }));
 
 app.use('/', index);
 app.use('/theories', theories);

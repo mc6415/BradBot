@@ -8,8 +8,7 @@ const siteService = require('../siteservice');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', {title: 'Express'});
-  // res.render('index', { title: 'Express', isLoggedIn: siteService.isLoggedIn(req) });
+  res.render('index', { title: 'Express', isLoggedIn: siteService.isLoggedIn(req) });
 });
 
 module.exports = router;
