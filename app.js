@@ -34,7 +34,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     store: new MSSQLStore(configFile.sessionConfig),
     secret: "secret",
-    rolling: true
+    rolling: true,
+    resave: true,
+    saveUninitialized: true
+
 }));
 
 app.use('/', index);
