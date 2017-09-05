@@ -37,9 +37,14 @@ block content
     .container
         .row
             if message
-                .alert.alert-danger
-                    strong Error:
-                    | #{message}
+                if messageType === 'error'
+                    .alert.alert-danger
+                        strong Error:
+                        | #{message}
+                if messageType === 'success'
+                    .alert.alert-success
+                        strong Success:
+                        | #{message}
             .col-md-offset-5.col-md-3
                 form.form-login(method='POST', action='/users/signin')
                     h4 Welcome back.

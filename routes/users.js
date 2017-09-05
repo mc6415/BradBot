@@ -46,7 +46,7 @@ router.post('/add', function(req,res){
       });
 
       request.on('doneProc', () => {
-          res.render('login', {message: "Thanks for signing up!"})
+          res.render('login', {message: "Thanks for signing up!", messageType: "success"})
       });
 
       connection.execSql(request);
@@ -83,10 +83,10 @@ router.post('/signin', (req,res) => {
                     console.log(req.session);
                     res.redirect("/");
                 } else {
-                    res.render('login', {message: "Password didn't match the one stored, are you sure it was correct?"})
+                    res.render('login', {message: "Password didn't match the one stored, are you sure it was correct?", messageType: "error"})
                 }
             } else {
-                res.render('login', {message: "Problem Logging in, are you sure you have an account?"})
+                res.render('login', {message: "Problem Logging in, are you sure you have an account?", messageType: "error"})
             }
         });
 
