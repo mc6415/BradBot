@@ -9,6 +9,7 @@ const siteService = require('../siteservice');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  console.log("Hitting Router");
   res.render('index', { title: 'Express', isLoggedIn: siteService.isLoggedIn(req) });
 });
 
