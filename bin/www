@@ -6,7 +6,6 @@
 const app = require('../app');
 const debug = require('debug')('bradbot:server');
 const http = require('http');
-const Connection = require('tedious').Connection;
 const botConfig = require('../botconfig');
 const botService = require('../botservice');
 
@@ -20,11 +19,6 @@ app.set('port', port);
  * Create HTTP server.
  */
 const server = http.createServer(app);
-
-/**
- *  Connect to the SQL database.
- */
-const connection = new Connection(botConfig.sqlConfig);
 
 botService.run();
 
