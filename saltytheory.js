@@ -60,7 +60,7 @@ exports.addTheory = function(theory, res, req){
         request.on('doneProc', () =>{
             res.redirect('/theories/list');
         });
-    });
 
-    connection.execSql(request);
+        connection.execSql(request);
+    });
 };
