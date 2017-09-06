@@ -4,7 +4,8 @@ exports.config = {
     "sqlUser": "mcoombes",
     "sqlPass": "Mc220391",
     "sqlServer": "bradbot.database.windows.net",
-    "dbName": "BradBot"
+    "dbName": "BradBot",
+    "payRespects": "http://i0.kym-cdn.com/entries/icons/mobile/000/017/252/2f0.jpg"
 };
 
 exports.sqlConfig = {

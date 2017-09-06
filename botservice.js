@@ -21,6 +21,11 @@ exports.run = function(){
         if(message.content.startsWith(botConfig.prefix + "theory")){
             SaltyTheory.theory(message, connection);
         }
+        if(message.content.startsWith(botConfig.prefix + "f")){
+            message.delete();
+            console.log(message.deletable);
+            message.channel.send(botConfig.payRespects);
+        }
     });
 
     client.login(botConfig.discordToken);
