@@ -23,6 +23,15 @@ exports.sessionConfig = {
     password: "Mc220391",
     server: "bradbot.database.windows.net",
     database: "BradBot",
+    connectionTimeout: 10000,
+    requestTimeout: 10000,
+
+    pool: {
+        max: 10,
+        min: 0,
+        idleTimeoutMillis: 14999
+    },
+
     options:{
         encrypt: true
     }
