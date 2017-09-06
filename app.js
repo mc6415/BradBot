@@ -25,6 +25,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 const store = new MSSQLStore(configFile.sessionConfig);
+store.on('error', (err) => {
+    console.log(err);
+    console.log("App still running as error is recoverable.");
+});
 app.use(sassMiddleware({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),

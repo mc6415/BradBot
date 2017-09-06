@@ -10,15 +10,11 @@ const siteServices = require('../siteservice');
 router.get('/list', function(req,res){
 
     const saltyTheories = [];
-
     let connection = new Connection(siteConfig.sqlConfig);
 
     connection.on('connect', (err) => {
         request = new Request("SELECT SaltyTheory FROM SaltyTheories", (err) => {
-            if(err){
-                console.log(err);
-            }
-
+            if(err){console.log(err); }
             connection.close();
         });
 
@@ -59,7 +55,6 @@ router.get('/war', (req,res)=>{
     } else {
         res.redirect('/');
     }
-
 });
 
 router.get('/getWarNumbers', (req,res) => {
