@@ -37,12 +37,10 @@ router.get('/list', function(req,res){
 });
 
 router.post('/add', function(req,res){
-    let connection = new Connection(siteConfig.sqlConfig);
 
-    connection.on('connect', (err) => {
         const newTheory = req.body.theory;
         Theories.addTheory(newTheory, res, req);
-    });
+
 });
 
 router.get('/war', (req,res)=>{
