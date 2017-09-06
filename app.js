@@ -21,8 +21,6 @@ const RedisOptions = {
     pass: "jxXePrye9dqzqNrZGC9HI81D+v51camkN/mhtNc+Abo="
 };
 
-const store = new RedisStore(RedisOptions);
-console.log(store);
 
 // view engine setup
 app.set('view engine', 'pug');
