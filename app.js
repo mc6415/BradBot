@@ -38,7 +38,6 @@ app.use(sassMiddleware({
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-    store: store,
     secret: "secret",
     rolling: true,
     resave: true,
