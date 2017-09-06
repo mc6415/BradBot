@@ -19,23 +19,45 @@ router.post('/add', function(req,res){
   let salt = randomString(10);
   let pepper = randomString(10);
   let password = `${sha256.x2(salt)}${sha256.x2(req.body.password)}${sha256.x2(pepper)}`;
+  let message = "";
+  let messageType = "";
+  let userExists = false;
 
   let connection = new Connection(siteConfig.sqlConfig);
 
   connection.on('connect', (err) => {
-      request = new Request("INSERT INTO [User] (UserName, Salt, Pepper, Password, IsAdmin, email) VALUES (@username, @salt, @pepper, @password, 0, @email)", (err) => {
+
+      checkRequest = new Request("SELECT * FROM [User] WHERE email = @email", (err) => {
+          if(err){console.log(err);}
+          if(userExists = true){
+              connection.close();
+          } else {
+              connection.execSql(addRequest);
+          }
+      });
+
+      checkRequest.addParameter('email', TYPES.NVarChar, req.body.email);
+
+      addRequest = new Request("INSERT INTO [User] (UserName, Salt, Pepper, Password, IsAdmin, email) VALUES (@username, @salt, @pepper, @password, 0, @email)", (err) => {
           if(err){console.log(err);}
           connection.close();
       });
 
-      request.addParameter('username', TYPES.NVarChar, req.body.username);
-      request.addParameter('salt', TYPES.NVarChar, salt);
-      request.addParameter('pepper', TYPES.NVarChar, pepper);
-      request.addParameter('password', TYPES.NVarChar, password);
-      request.addParameter('email', TYPES.NVarChar, req.body.email);
+      addRequest.addParameter('username', TYPES.NVarChar, req.body.username);
+      addRequest.addParameter('salt', TYPES.NVarChar, salt);
+      addRequest.addParameter('pepper', TYPES.NVarChar, pepper);
+      addRequest.addParameter('password', TYPES.NVarChar, password);
+      addRequest.addParameter('email', TYPES.NVarChar, req.body.email);
 
+      checkRequest.on('doneInProc', (rowCount) => {
+         if(rowCount > 0){
+             message = "Email already exists in database!";
+             messageType = "error";
+             userExists = true;
+         }
+      });
 
-      request.on('row', (columns) => {
+      addRequest.on('row', (columns) => {
           console.log(columns);
           for(const col of columns){
               if(col.value === null) {console.log('NULL');}
@@ -45,12 +67,17 @@ router.post('/add', function(req,res){
           }
       });
 
-      request.on('doneProc', () => {
-          res.render('login', {message: "Thanks for signing up!", messageType: "success"})
+      addRequest.on('doneProc', () => {
+          message = "Thanks for signing up!";
+          messageType = "success";
       });
 
-      connection.execSql(request);
-  })
+      connection.execSql(checkRequest);
+  });
+
+  connection.on('end', () => {
+      res.render('login', {message: message, messageType: messageType});
+  });
 
 });
 
