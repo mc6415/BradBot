@@ -19,7 +19,7 @@ exports.run = function(){
 
     client.on('message', (message) => {
         if(message.content.startsWith(botConfig.prefix + "theory")){
-            SaltyTheory.theory(message, connection);
+            SaltyTheory.theory(message);
         }
         if(message.content.startsWith(botConfig.prefix + "f")){
             message.delete();

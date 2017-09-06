@@ -1,57 +1,65 @@
-const Request = require('tedious').Request,
-TYPES = require('tedious').TYPES;
+const Request = require('tedious').Request;
+const TYPES = require('tedious').TYPES;
+const Connection = require('tedious').Connection;
+const siteConfig = require('./botconfig');
+const Discord = require('discord.js');
+const client = new Discord.Client();
 
-exports.theory = function(message, connection){
-  const Discord = require('discord.js'),
-    client = new Discord.Client(),
-    ConfigFile = require('./botconfig'),
-    botConfig = ConfigFile.config;
-
-
+exports.theory = function(message){
     const getRandomNumber = (range) => {
         return Math.floor(Math.random() * range);
     };
 
     const theories = [];
 
-    request = new Request("SELECT SaltyTheory FROM SaltyTheories", (err) => {
-        if(err){ console.log(err); }
-    });
+    let connection = new Connection(siteConfig.sqlConfig);
 
-    request.on('row', (columns) => {
-        for(const col of columns){
-            theories.push(col.value);
-        }
-    });
+    connection.on('connect', (err) => {
+        request = new Request("SELECT SaltyTheory FROM SaltyTheories", (err) => {
+            if(err){ console.log(err); }
+            connection.close();
+        });
 
-    request.on('doneProc', (rowCount) =>{
-        message.channel.send(`Salty Theory #${getRandomNumber(101)}: ${theories[getRandomNumber(theories.length)]}`)
-    });
+        request.on('row', (columns) => {
+            for(const col of columns){
+                theories.push(col.value);
+            }
+        });
 
-    connection.execSql(request);
+        request.on('doneProc', (rowCount) =>{
+            message.channel.send(`Salty Theory #${getRandomNumber(101)}: ${theories[getRandomNumber(theories.length)]}`)
+        });
+
+
+        connection.execSql(request);
+    });
 };
 
-exports.addTheory = function(theory, connection, res, req){
+exports.addTheory = function(theory, res, req){
 
-    request = new Request("INSERT INTO SaltyTheories (SaltyTheory, AddedBy) VALUES (@Theory, @AddedBy)", (err) => {
-        if(err){console.log(err);}
-        connection.close();
-    });
+    let connection = new Connection(siteConfig.sqlConfig);
 
-    request.addParameter('Theory', TYPES.NVarChar, theory);
-    request.addParameter('AddedBy', TYPES.NVarChar, req.session.user.UserName);
+    connection.on('connect', (err) => {
+        request = new Request("INSERT INTO SaltyTheories (SaltyTheory, AddedBy) VALUES (@Theory, @AddedBy)", (err) => {
+            if(err){console.log(err);}
+            connection.close();
+        });
 
-    request.on('row', (columns) => {
-       for(const col of columns){
-           if(col.value === null) {console.log('NULL');}
-           else {
-               console.log(`Product id of inserted item is ${col.value}`);
-           }
-       }
-    });
+        request.addParameter('Theory', TYPES.NVarChar, theory);
+        request.addParameter('AddedBy', TYPES.NVarChar, req.session.user.UserName);
 
-    request.on('doneProc', () =>{
-        res.redirect('/theories/list');
+        request.on('row', (columns) => {
+            for(const col of columns){
+                if(col.value === null) {console.log('NULL');}
+                else {
+                    console.log(`Product id of inserted item is ${col.value}`);
+                }
+            }
+        });
+
+        request.on('doneProc', () =>{
+            res.redirect('/theories/list');
+        });
     });
 
     connection.execSql(request);

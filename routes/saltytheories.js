@@ -41,7 +41,7 @@ router.post('/add', function(req,res){
 
     connection.on('connect', (err) => {
         const newTheory = req.body.theory;
-        Theories.addTheory(newTheory, connection, res, req);
+        Theories.addTheory(newTheory, res, req);
     });
 });
 
