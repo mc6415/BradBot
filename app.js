@@ -7,12 +7,22 @@ const bodyParser = require('body-parser');
 const sassMiddleware = require('node-sass-middleware');
 const session = require('express-session');
 const MSSQLStore = require('connect-mssql')(session);
+const RedisStore = require('connect-redis')(session);
 const index = require('./routes/index');
 const users = require('./routes/users');
 const theories = require('./routes/saltytheories');
 const configFile = require('./botconfig');
 const isLoggedIn = true;
 const app = express();
+
+const RedisOptions = {
+    host: "bradbot.redis.cache.windows.net",
+    port: 6379,
+    pass: "jxXePrye9dqzqNrZGC9HI81D+v51camkN/mhtNc+Abo="
+};
+
+const store = new RedisStore(RedisOptions);
+console.log(store);
 
 // view engine setup
 app.set('view engine', 'pug');
@@ -24,11 +34,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-const store = new MSSQLStore(configFile.sessionConfig);
-store.on('error', (err) => {
-    console.log(err);
-    console.log("App still running as error is recoverable.");
-});
+
 app.use(sassMiddleware({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
@@ -38,6 +44,7 @@ app.use(sassMiddleware({
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
+    store: new RedisStore(RedisOptions),
     secret: "secret",
     rolling: true,
     resave: true,
