@@ -6,13 +6,11 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const sassMiddleware = require('node-sass-middleware');
 const session = require('express-session');
-const MSSQLStore = require('connect-mssql')(session);
 const RedisStore = require('connect-redis')(session);
 const index = require('./routes/index');
 const users = require('./routes/users');
 const theories = require('./routes/saltytheories');
 const configFile = require('./botconfig');
-const isLoggedIn = true;
 const app = express();
 
 const RedisOptions = {
