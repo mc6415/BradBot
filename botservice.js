@@ -32,6 +32,7 @@ exports.run = function(){
             message.channel.send("NotZylbad#2805");
             message.channel.send("HangeZoe#21506");
             message.channel.send("Handsoap#11298");
+            message.channel.send("Pineapple#21810");
             message.channel.send("Obscure#11322");
             message.channel.send("Obscure#21579");
         }
