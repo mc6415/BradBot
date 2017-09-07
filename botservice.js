@@ -28,13 +28,15 @@ exports.run = function(){
 
         if(message.content.startsWith(botConfig.prefix + "accts")){
             message.delete();
-            message.channel.send("Zylbad#1463");
-            message.channel.send("NotZylbad#2805");
-            message.channel.send("HangeZoe#21506");
-            message.channel.send("Handsoap#11298");
-            message.channel.send("Pineapple#21810");
-            message.channel.send("Obscure#11322");
-            message.channel.send("Obscure#21579");
+            let accounts = ["Zylbad#1463", "NotZylbad#2805", "HangeZoe#21506", "Handsoap#11298", "Pineapple#21810", "Obscure#11322", "Obscure#21579"];
+
+            let acctString = "";
+
+            for(var acct of accounts){
+                acctString += `${acct}\n\n`;
+            }
+
+            message.channel.send(acctString);
         }
     });
 
