@@ -25,6 +25,16 @@ exports.run = function(){
             message.delete();
             message.channel.send({file: botConfig.payRespects});
         }
+
+        if(message.content.StartsWith(botConfig.prefix + "accts")){
+            message.delete();
+            message.channel.send("Zylbad#1463");
+            message.channel.send("NotZylbad#2805");
+            message.channel.send("HangeZoe#21506");
+            message.channel.send("Handsoap#11298");
+            message.channel.send("Obscure#11322");
+            message.channel.send("Obscure#21579");
+        }
     });
 
     client.login(botConfig.discordToken);
