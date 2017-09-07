@@ -11,6 +11,7 @@ block content
             for theory in theories
                 tr
                     td= theory
+    h1= IsAdmin
     if isLoggedIn
         form.form-horizontal(method="POST", action="/theories/add")
             fieldset

@@ -23,8 +23,7 @@ exports.run = function(){
         }
         if(message.content.startsWith(botConfig.prefix + "f")){
             message.delete();
-            console.log(message.deletable);
-            message.channel.send(botConfig.payRespects);
+            message.channel.send({file: botConfig.payRespects});
         }
     });
 

@@ -27,8 +27,8 @@ exports.theory = function(message){
         });
 
         request.on('doneProc', (rowCount) =>{
-            message.channel.send(`Salty Theory #${getRandomNumber(101)}: ${theories[getRandomNumber(theories.length)]}`)
             message.delete();
+            message.channel.send(`Salty Theory #${getRandomNumber(101)}: ${theories[getRandomNumber(theories.length)]}`);
         });
 
 
