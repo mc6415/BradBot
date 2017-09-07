@@ -26,7 +26,7 @@ exports.run = function(){
             message.channel.send({file: botConfig.payRespects});
         }
 
-        if(message.content.StartsWith(botConfig.prefix + "accts")){
+        if(message.content.startsWith(botConfig.prefix + "accts")){
             message.delete();
             message.channel.send("Zylbad#1463");
             message.channel.send("NotZylbad#2805");
