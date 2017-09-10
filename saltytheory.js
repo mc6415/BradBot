@@ -5,11 +5,11 @@ const siteConfig = require('./botconfig');
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
-exports.theory = function(message){
-    const getRandomNumber = (range) => {
-        return Math.floor(Math.random() * range);
-    };
+const getRandomNumber = (range) => {
+    return Math.floor(Math.random() * range);
+};
 
+exports.theory = function(message){
     const theories = [];
 
     let connection = new Connection(siteConfig.sqlConfig);
@@ -35,8 +35,34 @@ exports.theory = function(message){
                 })
         });
 
-
         connection.execSql(request);
+    });
+};
+
+exports.allTheories = (message) => {
+    let connection = new Connection(siteConfig.sqlConfig);
+    let theories = [];
+
+    connection.on('connect', (err) =>{
+       request = new Request("SELECT SaltyTheory FROM SaltyTheories", (err) => {
+           if(err){ console.log(err); }
+           connection.close();
+       });
+
+       request.on('row', (cols) => {
+           for(const col of cols){
+               theories.push(`Salty Theory #${getRandomNumber(101)}: ${col.value}\n\n`);
+           }
+       });
+
+       request.on('doneProc', (rowCount) => {
+           message.delete();
+           for(const index in theories){
+               message.channel.send(theories[index]);
+           }
+       });
+
+       connection.execSql(request);
     });
 };
 

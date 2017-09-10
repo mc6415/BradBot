@@ -14,9 +14,9 @@ const configFile = require('./botconfig');
 const app = express();
 
 const RedisOptions = {
-    host: "bradbot.redis.cache.windows.net",
+    host: "bradbot2.redis.cache.windows.net",
     port: 6379,
-    pass: "jxXePrye9dqzqNrZGC9HI81D+v51camkN/mhtNc+Abo="
+    pass: "H24UtVLfLbgrlqZKu5U1iV230KGHgKIwupM7GSpa/mg="
 };
 
 

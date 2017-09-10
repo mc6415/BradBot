@@ -2,7 +2,7 @@ exports.config = {
     "prefix": "-",
     "discordToken": "MzUzNzUwNjM2OTM3ODcxMzYw.DI01kw.MW_pVMMfwO3OTh5qLlOjS76GeIY",
     "sqlUser": "mcoombes",
-    "sqlPass": "Mc220391",
+    "sqlPass": "m.c220391",
     "sqlServer": "bradbot.database.windows.net",
     "dbName": "BradBot",
     "payRespects": "http://i0.kym-cdn.com/entries/icons/mobile/000/017/252/2f0.jpg"
@@ -10,7 +10,7 @@ exports.config = {
 
 exports.sqlConfig = {
     userName: "mcoombes",
-    password: "Mc220391",
+    password: "m.c220391",
     server: "bradbot.database.windows.net",
     options: {
         encrypt: true,
@@ -21,7 +21,7 @@ exports.sqlConfig = {
 
 exports.sessionConfig = {
     user: "mcoombes",
-    password: "Mc220391",
+    password: "m.c220391",
     server: "bradbot.database.windows.net",
     database: "BradBot",
     connectionTimeout: 10000,

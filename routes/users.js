@@ -122,7 +122,6 @@ router.post('/signin', (req,res) => {
 });
 
 router.get('/logout', (req,res) => {
-    console.log("Hello World");
     req.session.destroy((err) => {
         res.redirect("/");
     });
