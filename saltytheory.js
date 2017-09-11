@@ -42,6 +42,7 @@ exports.theory = function(message){
 exports.allTheories = (message) => {
     let connection = new Connection(siteConfig.sqlConfig);
     let theories = [];
+    let theory = "";
 
     connection.on('connect', (err) =>{
        request = new Request("SELECT SaltyTheory FROM SaltyTheories", (err) => {
@@ -51,14 +52,22 @@ exports.allTheories = (message) => {
 
        request.on('row', (cols) => {
            for(const col of cols){
-               theories.push(`Salty Theory #${getRandomNumber(101)}: ${col.value}\n\n`);
+               const newTheory = `Salty Theory #${getRandomNumber(101)}: ${col.value}\n`;
+               if(theory.length + newTheory.length > 2000){
+                   theories.push(theory);
+                   theory = `SaltyTheory #${getRandomNumber(101)}: ${col.value}\n`;
+               } else {
+                   theory += newTheory;
+               }
+               // theories.push(`Salty Theory #${getRandomNumber(101)}: ${col.value}\n\n`);
            }
        });
 
        request.on('doneProc', (rowCount) => {
            message.delete();
-           for(const index in theories){
-               message.channel.send(theories[index]);
+           theories.push(theory);
+           for(const x of theories){
+               message.channel.send(x);
            }
        });
 
