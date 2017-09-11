@@ -1,16 +1,26 @@
 doctype html
 html
-  head
+head
     title= title
     script(src='https://code.jquery.com/jquery-3.2.1.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/esm/popper.min.js')
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/site.css')
-    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.1.1/css/hover-min.css')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js')
     script(src='https://use.fontawesome.com/cf2dd32bd1.js')
     script(src='/javascripts/menu.js')
-    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
-  body
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/css/animsition.css')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/js/animsition.js')
+body.animsition
     include ./navbar
     include ./footer
+    script.
+        $(document).ready(function(){
+            $(".animsition").animsition({
+                outDuration: 3000,
+                inDuration: 1000
+            });
+        });

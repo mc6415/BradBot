@@ -105,9 +105,7 @@ router.post('/signin', (req,res) => {
                 let enteredPassword = `${sha256.x2(userEntry.Salt)}${sha256.x2(req.body.password)}${sha256.x2(userEntry.Pepper)}`;
 
                 if(dbPassword === enteredPassword){
-                    console.log(userEntry);
                     req.session.user = {UserName: userEntry.UserName, IsAdmin: userEntry.IsAdmin, HasVoted: userEntry.HasVoted};
-                    console.log(req.session);
                     res.redirect("/");
                 } else {
                     res.render('login', {message: "Password didn't match the one stored, are you sure it was correct?", messageType: "error"})

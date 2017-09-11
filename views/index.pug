@@ -1,8 +1,29 @@
 extends layout
 
 block content
-  h1 BradBot
-  p Welcome to BradBot. A fun little bot for use in a small discord community I'm a part of. It has no use or meaning to anybody else so have at it I suppose!
-  br
-  br
-  a.btn.btn-primary(href='https://discordapp.com/oauth2/authorize?client_id=353750636937871360&scope=bot') Add Bot to Server
+  if !isLoggedIn
+    .container
+      h1.display-4 Not Got An Account? Sign Up Here!
+    .container
+      form(method='POST', action='/users/add')
+        .form-group.row
+          label.col-sm-2.col-form-label(for='username') Username:
+          .col-sm-10.input-group
+            .input-group-addon
+              i.fa.fa-user(aria-hidden='true', style='width:40px')
+            input.form-control(id='username', name='username', placeholder='Username')
+        .form-group.row
+          label.col-sm-2.col-form-label(for='password') Password:
+          .col-sm-10.input-group
+            .input-group-addon
+              i.fa.fa-key(aria-hidden='true', style='width:40px')
+            input.form-control(id='password', name='password', type='password', placeholder='Password')
+        .form-group.row
+          label.col-sm-2.col-form-label(for='email') Email:
+          .col-sm-10.input-group
+            .input-group-addon
+              i.fa.fa-envelope(aria-hidden='true', style='width:40px')
+            input.form-control(id='email', name='email', placeholder='Email')
+        .form-group.row
+          .col-sm-10
+            button.btn.btn-primary(type='submit') Submit

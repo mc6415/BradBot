@@ -13,22 +13,26 @@ router.get('/list', function(req,res){
     let connection = new Connection(siteConfig.sqlConfig);
 
     connection.on('connect', (err) => {
-        request = new Request("SELECT SaltyTheory FROM SaltyTheories", (err) => {
+        request = new Request("SELECT SaltyTheory, AddedBy FROM SaltyTheories", (err) => {
             if(err){console.log(err); }
             connection.close();
         });
 
         request.on('row', (columns) =>{
+            let theory = {};
             for(const col of columns){
-                saltyTheories.push(col.value);
+                theory[col.metadata.colName] = col.value
             }
+
+            saltyTheories.push(theory);
         });
 
-        request.on('doneProc', (rowCount, more)=>{
+        request.on('doneInProc', (rowCount, more, rows)=>{
             res.render('theories', {
                 title: 'Salty Theories',
                 theories: saltyTheories,
-                isLoggedIn: siteServices.isLoggedIn(req)
+                isLoggedIn: siteServices.isLoggedIn(req),
+                user: req.session.user
             });
         });
 
