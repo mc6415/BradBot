@@ -13,7 +13,7 @@ router.get('/list', function(req,res){
     let connection = new Connection(siteConfig.sqlConfig);
 
     connection.on('connect', (err) => {
-        request = new Request("SELECT SaltyTheory, AddedBy FROM SaltyTheories", (err) => {
+        request = new Request("SELECT SaltyTheory, AddedBy, Hidden FROM SaltyTheories", (err) => {
             if(err){console.log(err); }
             connection.close();
         });

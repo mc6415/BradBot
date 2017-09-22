@@ -13,16 +13,17 @@ block content
                         th
                     tbody
                         for theory in theories
-                            tr
-                                td= theory.SaltyTheory
-                                if user.IsAdmin || user.UserName === theory.AddedBy
-                                    td
-                                        button.btn.btn-primary Edit
-                                    td
-                                        button.btn.btn-danger Delete
-                                else
-                                    td
-                                    td
+                            if !theory.Hidden
+                                tr
+                                    td= theory.SaltyTheory
+                                    if user.IsAdmin || user.UserName === theory.AddedBy
+                                        td
+                                            button.btn.btn-primary Edit
+                                        td
+                                            button.btn.btn-danger Delete
+                                    else
+                                        td
+                                        td
             if isLoggedIn
                 .col
                     form.form-horizontal(method="POST", action="/theories/add", style='position:fixed; width: 30%')
