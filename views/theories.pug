@@ -1,8 +1,8 @@
 extends layout
 
-block content
+block contentBicester
     h1.display-3= title
-    p.lead Here you'll find a list of salty theories the bot will show
+    p.lead Here you'll find a list of salty theories the bot will showOX26 4JT, Granville Way, Bicester
     .container
         .row
             .col
@@ -18,7 +18,7 @@ block content
                                     td= theory.SaltyTheory
                                     if user.IsAdmin || user.UserName === theory.AddedBy
                                         td
-                                            button.btn.btn-primary Edit
+                                            a.btn.btn-primary(style='color:white;', href='/theories/edit/' + theory.Id) Edit
                                         td
                                             button.btn.btn-danger Delete
                                     else

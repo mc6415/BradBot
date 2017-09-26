@@ -13,7 +13,7 @@ router.get('/list', function(req,res){
     let connection = new Connection(siteConfig.sqlConfig);
 
     connection.on('connect', (err) => {
-        request = new Request("SELECT SaltyTheory, AddedBy, Hidden FROM SaltyTheories", (err) => {
+        request = new Request("SELECT Id, SaltyTheory, AddedBy, Hidden FROM SaltyTheories", (err) => {
             if(err){console.log(err); }
             connection.close();
         });
@@ -119,6 +119,17 @@ router.post('/vote', (req,res) => {
    connection.on('end', (err) => {
        res.send("");
    })
+});
+
+router.get('/edit/:id', (req,res) => {
+    let connection = new Connection(siteConfig.sqlConfig);
+
+    connection.on('connect', (err) => {
+
+    });
+
+
+    res.render('theoryedit');
 });
 
 module.exports = router;

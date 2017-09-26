@@ -28,7 +28,7 @@ exports.theory = function(message){
 
         request.on('doneProc', (rowCount) =>{
             message.delete();
-            message.channel.send(`Salty Theory #${getRandomNumber(101)}: ${theories[getRandomNumber(theories.length)]}`)
+            message.channel.send(`Salty Theory #${getRandomNumber(101)}: ${theories[getRandomNumber(theories.length)]}`, {tts:true})
                 .then(msg => {
                     const emojiList = message.guild.emojis.map(e => e.toString()).join(" ");
                     msg.react("345948468063240203");
