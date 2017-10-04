@@ -46,6 +46,9 @@ exports.run = function(){
                 case "all" :
                     SaltyTheory.allTheories(message);
                     break;
+                case "latest" :
+                    SaltyTheory.latestTheory(message);
+                    break;
             }
         }
 

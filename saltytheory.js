@@ -39,6 +39,34 @@ exports.theory = function(message){
     });
 };
 
+exports.latestTheory = (message) => {
+    let connection = new Connection(siteConfig.sqlConfig);
+    const theories = [];
+
+    connection.on('connect', (err) => {
+       request = new Request("SELECT TOP 1 SaltyTheory FROM SaltyTheories ORDER BY Id DESC", (err) => {
+           if(err){ console.log(err); }
+           connection.close();
+       });
+
+       request.on('row', (columns) => {
+           for(const col of columns){
+               theories.push(col.value);
+           }
+       });
+
+       request.on('doneProc', (rowCount) => {
+           message.delete();
+           message.channel.send(`Salty Theory #${getRandomNumber(101)}: ${theories[0]}`, {tts:true})
+               .then(msg => {
+                   msg.react("345948468063240203");
+               });
+       });
+
+       connection.execSql(request);
+    });
+};
+
 exports.allTheories = (message) => {
     let connection = new Connection(siteConfig.sqlConfig);
     let theories = [];
