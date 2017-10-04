@@ -123,13 +123,79 @@ router.post('/vote', (req,res) => {
 
 router.get('/edit/:id', (req,res) => {
     let connection = new Connection(siteConfig.sqlConfig);
+    let theory = {};
+    const theoryId = req.params.id;
 
     connection.on('connect', (err) => {
+        request = new Request(`SELECT SaltyTheory, AddedBy, Id FROM SaltyTheories WHERE Id = @id`, (err) => {
+            if(err){console.log(err);}
+            connection.close();
+        });
 
+        request.addParameter('id', TYPES.Int, theoryId);
+
+        request.on('doneInProc', (rowCount, more, rows) => {
+            if(rowCount === 1){
+                theory = rows[0][0].value;
+                addedBy = rows[0][1].value;
+                id = rows[0][2].value;
+
+                if(addedBy === req.session.user.UserName || req.session.user.IsAdmin){
+                    res.render('theoryedit', {theory: theory, canSee: true, theoryId: id});
+                } else {
+                    res.render('theoryedit', {canSee: false});
+                }
+            } else {console.log("Problem getting Theory");}
+
+        });
+
+        connection.execSql(request);
     });
+});
 
+router.get('/delete/:id', (req,res) => {
+    const theoryId = req.params.id;
 
-    res.render('theoryedit');
+   let connection = new Connection(siteConfig.sqlConfig);
+
+   connection.on('connect', (err) => {
+       request = new Request("DELETE FROM SaltyTheories WHERE Id = @id", (err) => {
+            if(err) {console.log(err);}
+            connection.close();
+        });
+
+       request.addParameter('id', TYPES.Int, theoryId);
+
+       request.on('doneProc', () => {
+           res.redirect('/theories/list');
+       });
+
+       connection.execSql(request);
+   });
+});
+
+router.post('/update/:id', (req,res) => {
+    const newTheory = req.body.saltyTheory;
+    const theoryId = req.params.id;
+
+    let connection = new Connection(siteConfig.sqlConfig);
+
+    connection.on('connect', (err) => {
+        request = new Request("UPDATE SaltyTheories SET SaltyTheory = @theory WHERE Id = @id", (err) => {
+           if(err){console.log(err);}
+           connection.close();
+        });
+
+        request.addParameter('theory', TYPES.NVarChar, newTheory);
+        request.addParameter('id', TYPES.Int, theoryId);
+
+        request.on('doneInProc', () => {
+            res.redirect('/theories/list');
+        });
+
+        connection.execSql(request);
+
+    })
 });
 
 module.exports = router;

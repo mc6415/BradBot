@@ -1,3 +1,11 @@
 extends layout
 
 block content
+    if canSee
+        form(method='post', action='/theories/update/' + theoryId)
+            .form-group
+                label(for="saltyTheory") Theory:
+                textarea.form-control#saltyTheory(name='saltyTheory', rows=6, style='text-align:center')=theory
+            input.btn.btn-primary(type='submit')
+    else
+        h1 This isn't a theory you can edit!
